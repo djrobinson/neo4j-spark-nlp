@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "spark-nlp-docker"
+version = "0.1.0"
+description = ""
+authors = ["Danny Robinson <danny.robinson111@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pyspark = "^3.2.0"
+spark-nlp = "^3.4.0"
+jupyter = "^1.0.0"
+numpy = "1.21.0"
+cryptography = "^36.0.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
