@@ -37,7 +37,7 @@ RUN adduser --disabled-password \
     ${NB_USER}
 
 RUN pip3 install poetry
-COPY . ./
+COPY pyproject.toml poetry.lock test.ipynb ./
 RUN poetry install
 
 USER root
@@ -46,6 +46,5 @@ USER ${NB_USER}
 
 WORKDIR ${HOME}
 
-CMD ["poetry", "run", "jupyter", "notebook",  "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
 
 # Specify the default command to run
