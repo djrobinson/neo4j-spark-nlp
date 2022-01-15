@@ -4,8 +4,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    expose: 
+    volumes: 
+      - ./notebooks:/app/notebooks
+    expose:
       - 8888
     ports:
       - 8888:8888
-    command: ["poetry", "run", "jupyter", "notebook",  "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+    command: ["poetry", "run", "jupyter", "notebook",  "--debug", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]

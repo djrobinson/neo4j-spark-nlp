@@ -7,7 +7,8 @@ ENV JAVA_HOME /usr/local/openjdk-8
 
 ENV NB_USER drobinson
 ENV NB_UID 1000
-ENV HOME /home/${NB_USER}
+ENV HOME /app/
+WORKDIR ${HOME}
 
 ENV PYSPARK_PYTHON=python3
 ENV PYSPARK_DRIVER_PYTHON=python3
@@ -29,7 +30,8 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     software-properties-common \
     graphviz \
-    git
+    git \
+    vim
 
 RUN adduser --disabled-password \
     --gecos "Default user" \
@@ -37,8 +39,10 @@ RUN adduser --disabled-password \
     ${NB_USER}
 
 RUN pip3 install poetry
-COPY pyproject.toml poetry.lock test.ipynb ./
+
+COPY pyproject.toml poetry.lock ${HOME}
 RUN poetry install
+RUN mkdir ${HOME}/notebooks/
 
 USER root
 RUN chown -R ${NB_UID} ${HOME}
@@ -46,5 +50,5 @@ USER ${NB_USER}
 
 WORKDIR ${HOME}
 
-
-# Specify the default command to run
+RUN poetry run jupyter notebook --generate-config 
+RUN echo "c.NotebookApp.notebook_dir = '/app/notebooks'" >> /app/.jupyter/jupyter_notebook_config.py
